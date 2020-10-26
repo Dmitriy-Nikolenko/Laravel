@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\AddNewsController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsCategoryController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\OneNewsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +22,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('home');
-});
-Route::get('/info', function () {
-    return view('info');
-});
-Route::get('/news', function () {
-    return view('news');
-});
+
+Route::get('/home', [HomeController::class, 'info']);
+
+Route::get('/category', [NewsCategoryController::class, 'getCategoryNews']);
+
+Route::get('/news/{category}', [NewsController::class, 'getCategoryNews']);
+
+Route::get('/news/{category}/{id}', [OneNewsController::class, 'getOneNews']);
+
+Route::get('/auth', [AuthController::class, 'getAuth']);
+
+Route::get('/addnews', [AddNewsController::class, 'addNews']);
+
+
+
+
+
+
+
+
