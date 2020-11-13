@@ -1,5 +1,17 @@
 <?php
 
+
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminNewsController;
+use App\Http\Controllers\Admin\AdminFeedbackController;
+use App\Http\Controllers\Admin\AdminSourceController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\NewsCategoryController;
+use App\Http\Controllers\news\NewsController;
+use App\Http\Controllers\news\OneNewsController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +28,34 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('home');
+
+Route::get('/category', [NewsCategoryController::class, 'getCategoryNews']);
+
+Route::prefix('news')->group(function () {
+    Route::get('/category/{category}', [NewsController::class, 'getCategoryNews'])->name('categoryNews');
+    Route::get('/{id}', [OneNewsController::class, 'getOneNews'])->name('newsId');
 });
-Route::get('/info', function () {
-    return view('info');
+
+Route::resource('/feedback', FeedbackController::class);
+
+Route::resource('/order', OrderController::class);
+
+Route::prefix('/admin')->group(function() {
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
+    Route::resource('news', AdminNewsController::class);
+    Route::resource('feedbacks', AdminFeedbackController::class);
+    Route::resource('orders', AdminOrderController::class);
+    Route::resource('category', AdminCategoryController::class);
+    Route::resource('source', AdminSourceController::class);
 });
-Route::get('/news', function () {
-    return view('news');
-});
+
+
+
+
+
+
+
+
+
+
+
